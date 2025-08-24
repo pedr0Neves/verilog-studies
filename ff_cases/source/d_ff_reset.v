@@ -23,11 +23,19 @@
 module d_ff_reset
 (   input wire clk, rst,
     input wire d,
-    output reg q);
+    output wire q);
     
+    /*    
     always @(posedge clk, posedge rst) begin
         q <= d;
         if(rst) 
             q <= 1'b0;
     end
+    */
+    
+    wire d_in;
+    
+    assign d_in = rst ? 1'b0 : d;
+    
+    d_ff dff(.clk(clk), .d(d_in), .q(q));
 endmodule

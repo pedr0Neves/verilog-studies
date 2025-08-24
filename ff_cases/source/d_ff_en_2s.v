@@ -1,4 +1,4 @@
-`timescale 1ns / 1ps
+`timescale 1ns / 10ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -24,8 +24,9 @@ module d_ff_en_2s
 (   input wire clk, rst,
     input wire en,
     input wire d,
-    output reg q);
+    output wire q);
     
+    /* modo 1
     // declaraçao de sinal
     reg r_reg, r_next;
     
@@ -47,8 +48,9 @@ module d_ff_en_2s
     // saida logica
     always @* 
         q <= r_reg;
+    */
         
-    /*
+    /* 
     always @(posedge clk, posedge rst) begin
         q <= r_next;
         if(rst) 
@@ -61,4 +63,10 @@ module d_ff_en_2s
             r_next <= d;
     end
     */
+    
+    wire r_next;
+    
+    assign r_next = (en) ? d : q;
+    
+    d_ff_reset dff(.clk(clk), .rst(rst), .d(r_next), .q(q));
 endmodule
